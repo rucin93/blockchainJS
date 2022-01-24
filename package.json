@@ -1,0 +1,23 @@
+{
+  "name": "blockchainjs",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rucin93/blockchainJS.git"
+  },
+  "author": "Piotr Ruciński",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rucin93/blockchainJS/issues"
+  },
+  "homepage": "https://github.com/rucin93/blockchainJS#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "elliptic": "^6.5.4"
+  }
+}
