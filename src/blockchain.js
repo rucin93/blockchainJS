@@ -4,35 +4,19 @@ import Transaction from "./transaction.js";
 export default class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
-    this.difficulty = 2;
+    this.difficulty = 4;
     this.pendingTransactions = [];
     this.miningReward = 100;
   }
 
-  /**
-   * @returns {Block}
-   */
   createGenesisBlock() {
-    return new Block(Date.parse("2017-01-01"), [], "0");
+    return new Block(Date.parse("2022-01-01"), [], "0");
   }
 
-  /**
-   * Returns the latest block on our chain. Useful when you want to create a
-   * new Block and you need the hash of the previous Block.
-   *
-   * @returns {Block[]}
-   */
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
 
-  /**
-   * Takes all the pending transactions, puts them in a Block and starts the
-   * mining process. It also adds a transaction to send the mining reward to
-   * the given address.
-   *
-   * @param {string} miningRewardAddress
-   */
   minePendingTransactions(miningRewardAddress) {
     const rewardTx = new Transaction(
       null,
@@ -54,19 +38,11 @@ export default class Blockchain {
     this.pendingTransactions = [];
   }
 
-  /**
-   * Add a new transaction to the list of pending transactions (to be added
-   * next time the mining process starts). This verifies that the given
-   * transaction is properly signed.
-   *
-   * @param {Transaction} transaction
-   */
   addTransaction(transaction) {
     if (!transaction.fromAddress || !transaction.toAddress) {
       throw new Error("Transaction must include from and to address");
     }
 
-    // Verify the transactiion
     if (!transaction.isValid()) {
       throw new Error("Cannot add invalid transaction to chain");
     }
@@ -75,7 +51,6 @@ export default class Blockchain {
       throw new Error("Transaction amount should be higher than 0");
     }
 
-    // Making sure that the amount sent is not greater than existing balance
     if (
       this.getBalanceOfAddress(transaction.fromAddress) < transaction.amount
     ) {
@@ -86,12 +61,6 @@ export default class Blockchain {
     console.log("transaction added: %s", transaction);
   }
 
-  /**
-   * Returns the balance of a given wallet address.
-   *
-   * @param {string} address
-   * @returns {number} The balance of the wallet
-   */
   getBalanceOfAddress(address) {
     let balance = 0;
 
@@ -111,13 +80,6 @@ export default class Blockchain {
     return balance;
   }
 
-  /**
-   * Returns a list of all transactions that happened
-   * to and from the given wallet address.
-   *
-   * @param  {string} address
-   * @return {Transaction[]}
-   */
   getAllTransactionsForWallet(address) {
     const txs = [];
 
